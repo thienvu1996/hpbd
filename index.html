@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Gửi Em Bé Của Anh - Happy Birthday!</title>
+    <!-- Google Fonts: Dancing Script for names/wishes, Roboto for UI -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Roboto:wght@300;400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- BACKGROUND LAYERS -->
+    <div class="bg-gradient"></div>
+    <div id="petal-container"></div> <!-- Falling Petals Layer -->
+    <canvas id="particle-canvas"></canvas> <!-- Sparkle layer -->
+
+    <!-- AUDIO PLAYER (HIDDEN) -->
+    <div id="youtube-player"></div>
+
+    <div class="audio-control" onclick="toggleMusic()">
+        <div class="music-note">🎵</div>
+    </div>
+
+    <!-- MAIN APP CONTAINER -->
+    <main id="app">
+
+        <!-- SCREEN 1: WELCOME/LOGIN -->
+        <section id="screen-login" class="screen active">
+            <div class="glass-card login-card animate-pop">
+                <div class="heart-icon">💖</div>
+                <h1 class="font-accent">Chào Em Bé Của Anh!</h1>
+                <p>Nhập mật mã bí mật để nhìn thấy bất ngờ nhé:</p>
+                <div class="input-group">
+                    <input type="password" id="login-pass" placeholder="Ngày sinh của em (DDMM)"
+                        autocomplete="current-password">
+                    <div class="input-line"></div>
+                </div>
+                <button class="btn btn-primary" onclick="checkLogin()">Khai Mở Quà Tặng 🎁</button>
+                <p id="login-error" class="error-msg">Mật mã chưa đúng, thử lại nhé em! 🥺</p>
+            </div>
+        </section>
+
+        <!-- SCREEN 2: QUIZ CHALLENGE -->
+        <section id="screen-quiz" class="screen">
+            <div class="glass-card quiz-card">
+                <div class="progress-container">
+                    <div id="progress-fill" class="progress-fill"></div>
+                    <span id="quiz-step">1/5</span>
+                </div>
+                <h2 id="question-text" class="question-text">Đang tải câu hỏi...</h2>
+                <div class="options-grid">
+                    <button class="option-btn" onclick="handleAnswer(0)"><span class="label">A</span><span
+                            class="text"></span></button>
+                    <button class="option-btn" onclick="handleAnswer(1)"><span class="label">B</span><span
+                            class="text"></span></button>
+                    <button class="option-btn" onclick="handleAnswer(2)"><span class="label">C</span><span
+                            class="text"></span></button>
+                    <button class="option-btn" onclick="handleAnswer(3)"><span class="label">D</span><span
+                            class="text"></span></button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SCREEN 3: WHEEL OF FORTUNE -->
+        <section id="screen-wheel" class="screen">
+            <div class="glass-card wheel-card animate-pop">
+                <h2 class="font-accent">Vòng Quay May Mắn 🎁</h2>
+                <p>Mỗi em bé đều có một phần quà bí mật!</p>
+                <div class="wheel-outer">
+                    <div class="wheel-pointer">👇</div>
+                    <div class="wheel-container">
+                        <canvas id="wheel-canvas" width="300" height="300"></canvas>
+                    </div>
+                </div>
+                <button id="spin-btn" class="btn btn-primary" onclick="spinWheel()">Quay Thử Vận May 🎡</button>
+                <div id="wheel-result" class="wheel-result">
+                    <img id="prize-img" src="image/prize_lipstick_1775105425805.png" alt="Son môi" style="width:100px;height:100px;object-fit:contain;margin:10px auto;display:block;border-radius:50%;box-shadow:0 4px 20px rgba(255,117,140,0.4);">
+                    <h3>Chúc mừng em bé! 🥳</h3>
+                    <p>Em đã trúng: <strong id="prize-name" class="font-accent">Son môi 💄</strong></p>
+                    <button class="btn btn-primary" onclick="goToBirthday()">Nhận quà & Xem bất ngờ tiếp theo ✨</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SCREEN 4: BIRTHDAY CELEBRATION (FINALE) -->
+        <section id="screen-birthday" class="screen">
+            <!-- FLOATING PHOTOS LAYER -->
+            <div id="photo-cards-grid" class="photo-layer"></div>
+
+            <!-- MAIN FOCUS CARD -->
+            <div class="glass-card hero-card">
+                <div class="hero-header">
+                    <span class="pill-age">Tuổi 26 Rạng Rỡ ✨</span>
+                    <h1 class="font-accent name-title">Nguyễn Ngọc Bảo Thùy</h1>
+                    <p class="sweet-msg">Mãi là em bé đáng yêu nhất của anh! ❤️</p>
+                </div>
+
+                <!-- ANIMATED CAKE -->
+                <div class="cake-box" onclick="blowOutCandles()">
+                    <div class="cake-visual">
+                        <svg viewBox="0 0 100 100">
+                            <!-- Cake Layers -->
+                            <path d="M20 85 q30 -5 60 0 v-20 q-30 -5 -60 0 z" fill="#fbc3bc" />
+                            <path d="M25 65 q25 -5 50 0 v-15 q-25 -5 -50 0 z" fill="#f8a5c2" />
+                            <path d="M30 50 q20 -5 40 0 v-10 q-20 -5 -40 0 z" fill="#ff6b81" />
+                            <!-- Candle -->
+                            <g id="candle-group">
+                                <rect x="48" y="25" width="4" height="15" fill="#fff" />
+                                <path id="flame" d="M50 8 Q56 18 50 25 Q44 18 50 8" fill="#ff9d00">
+                                    <animateTransform attributeName="transform" type="scale" values="1;1.2;1" dur="0.6s"
+                                        repeatCount="indefinite" />
+                                </path>
+                            </g>
+                        </svg>
+                    </div>
+                    <p class="hint-text">Chạm vào bánh để thổi nến nhé! 🌬️</p>
+                </div>
+
+                <div id="wishes-carousel" class="wish-slider">
+                    Lời chúc đang được gửi tới em...
+                </div>
+            </div>
+
+            <!-- WISH OVERLAY -->
+            <div id="overlay-bg" class="wish-overlay" onclick="closeFlyingCard()">
+                <div class="overlay-hint">Chạm vào vùng trống để quay lại ✨</div>
+            </div>
+        </section>
+    </main>
+
+    <!-- SCRIPTS -->
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>

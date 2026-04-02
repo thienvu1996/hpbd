@@ -1,0 +1,468 @@
+:root {
+    --primary: #ff758c;
+    --primary-light: #ff7eb3;
+    --secondary: #fbc3bc;
+    --accent: #ff4757;
+    --gold: #FFD700;
+    --glass: rgba(255, 255, 255, 0.7);
+    --glass-border: rgba(255, 255, 255, 0.4);
+    --text: #702f43;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    color: var(--text);
+    overflow: hidden; /* No scroll by default */
+    background: #fff;
+    min-height: 100vh;
+}
+
+.font-accent {
+    font-family: 'Dancing Script', cursive;
+}
+
+/* BACKGROUNDS */
+.bg-gradient {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
+    z-index: -3;
+}
+
+#particle-canvas {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* PETALS LAYER */
+#petal-container {
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.petal {
+    position: absolute;
+    background: #ffc2c2;
+    border-top-left-radius: 50% 100%;
+    border-bottom-right-radius: 50% 100%;
+    opacity: 0.6;
+    animation: petal-fall linear infinite;
+}
+
+@keyframes petal-fall {
+    0% { transform: translateY(-10vh) rotate(0deg); }
+    100% { transform: translateY(110vh) rotate(720deg); }
+}
+
+/* APP WRAPPER */
+#app {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.screen {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.5s ease;
+}
+
+.screen.active {
+    display: flex;
+    opacity: 1;
+}
+
+/* GLASS CARD STYLE */
+.glass-card {
+    background: var(--glass);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid var(--glass-border);
+    border-radius: 30px;
+    padding: 30px;
+    width: 100%;
+    max-width: 450px;
+    box-shadow: 0 15px 35px rgba(255, 117, 140, 0.2);
+    text-align: center;
+}
+
+/* LOGIN SCREEN */
+.heart-icon { font-size: 3rem; margin-bottom: 10px; }
+.login-card h1 { font-size: 2.2rem; color: var(--accent); margin-bottom: 10px; }
+.input-group { position: relative; margin: 30px 0; }
+#login-pass {
+    width: 100%;
+    border: none;
+    background: transparent;
+    border-bottom: 2px solid #ffccd5;
+    padding: 10px;
+    font-size: 1.1rem;
+    text-align: center;
+    outline: none;
+    transition: border-color 0.3s;
+}
+#login-pass:focus { border-bottom-color: var(--primary); }
+.error-msg { color: var(--accent); display: none; margin-top: 15px; font-weight: bold; }
+
+/* QUIZ SCREEN */
+.progress-container {
+    width: 100%;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    margin-bottom: 10px;
+    position: relative;
+}
+.progress-fill {
+    height: 100%;
+    background: var(--accent);
+    width: 0%;
+    transition: width 0.3s;
+    border-radius: 10px;
+}
+#quiz-step { float: right; font-size: 0.8rem; margin-top: 5px; opacity: 0.7; }
+.question-text { font-size: 1.3rem; margin: 30px 0; min-height: 80px; }
+.options-grid { display: grid; gap: 15px; }
+
+/* BUTTONS */
+.btn {
+    padding: 15px 30px;
+    border: none;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.btn-primary { background: var(--primary); color: white; width: 100%; }
+.btn-primary:active { transform: scale(0.95); }
+
+.option-btn {
+    background: rgba(255, 255, 255, 0.5);
+    border: 1px solid var(--glass-border);
+    padding: 15px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.option-btn:hover { background: #fee; transform: translateX(5px); }
+.option-btn .label {
+    background: var(--primary); color: white;
+    width: 30px; height: 30px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: bold; margin-right: 15px;
+}
+.option-btn.correct { background: #45aaf2 !important; color: white; }
+.option-btn.wrong { background: #eb3b5a !important; color: white; }
+
+/* BIRTHDAY SCREEN - THE FINALE */
+#screen-birthday {
+    flex-direction: column;
+    padding-top: 20px;
+}
+
+.hero-card {
+    position: relative; /* CRITICAL: Must have position for z-index to work */
+    max-width: 500px;
+    z-index: 1000; /* Higher than floating photos (50) */
+}
+
+.pill-age {
+    background: var(--primary); color: white;
+    padding: 5px 15px; border-radius: 20px;
+    font-size: 0.8rem; font-weight: bold;
+}
+
+.name-title { font-size: 2.8rem; color: var(--accent); margin-top: 10px; }
+.sweet-msg { font-size: 0.95rem; font-style: italic; opacity: 0.9; margin-bottom: 20px; }
+
+/* CAKE */
+.cake-box { cursor: pointer; transition: 0.3s; margin: 10px 0; }
+.cake-box:hover { transform: scale(1.05); }
+.cake-visual { width: 120px; height: 120px; margin: 0 auto; }
+.hint-text { font-size: 0.8rem; opacity: 0.7; margin-top: 5px; }
+
+.wish-slider {
+    margin-top: 20px;
+    border-top: 1px solid var(--glass-border);
+    padding-top: 15px;
+    font-weight: bold;
+    min-height: 50px;
+    transition: opacity 0.5s;
+}
+
+/* PHOTO LAYER - FLOATING OR GRID */
+#photo-cards-grid {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 50;
+}
+
+.flip-card {
+    pointer-events: all;
+    position: absolute;
+    width: 120px; height: 150px;
+    perspective: 1000px;
+    transition: all 0.5s ease;
+    cursor: pointer;
+}
+
+.flip-card-inner {
+    position: relative;
+    width: 100%; height: 100%;
+    transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transform-style: preserve-3d;
+}
+
+.flip-card.flipped .flip-card-inner { transform: rotateY(180deg); }
+
+.card-front, .card-back {
+    position: absolute;
+    width: 100%; height: 100%;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    border-radius: 12px;
+    border: 3px solid white;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+.card-front img { width: 100%; height: 100%; object-fit: cover; }
+
+.card-back {
+    background: linear-gradient(135deg, #fffcfc, #ffe5e5);
+    /* No rotateY here - JS will swap content at 90 degrees */
+    display: flex; align-items: center; justify-content: center;
+    padding: 10px; text-align: center; color: var(--text);
+    font-size: 0.85rem; font-weight: bold;
+    opacity: 0; /* Hidden initially */
+    transition: opacity 0.1s;
+}
+
+/* FLY TO CENTER ANIMATION */
+.flip-card.flying {
+    position: fixed !important;
+    top: 50% !important; left: 50% !important;
+    transform: translate(-50%, -50%) scale(1.8) !important;
+    z-index: 2000 !important;
+    animation: none !important;
+}
+
+/* OVERLAY */
+.wish-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(255, 182, 193, 0.15); /* Very clear pink, NO BLUR */
+    z-index: 1500;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s;
+    display: flex; justify-content: center; align-items: flex-end;
+    padding-bottom: 50px;
+}
+.wish-overlay.active { opacity: 1; pointer-events: all; }
+.overlay-hint { color: white; font-weight: bold; opacity: 0.8; animation: pulse-hint 2s infinite; }
+
+/* AUDIO CONTROL */
+.audio-control {
+    position: fixed;
+    bottom: 25px; right: 25px;
+    width: 45px; height: 45px;
+    background: var(--primary);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; z-index: 3000;
+    color: white; font-size: 1.2rem;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+.audio-control.playing { animation: pulse-audio 1.5s infinite; }
+
+@keyframes pulse-audio { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
+@keyframes pulse-hint { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
+
+/* MOBILE RESPONSIVE - GRID MODE & NO SCROLL */
+@media (max-width: 768px) {
+    #screen-birthday { justify-content: flex-start; padding-top: 15vh; }
+    
+    .hero-card { transform: scale(0.9); }
+    
+    #photo-cards-grid {
+        position: relative !important;
+        margin-top: 10px;
+        width: 100%;
+        height: auto;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+        padding: 5px;
+        pointer-events: all;
+        z-index: 100;
+    }
+
+    .flip-card {
+        position: relative !important;
+        top: auto !important; left: auto !important;
+        width: 100% !important; height: auto !important;
+        aspect-ratio: 3/4;
+        animation: none !important;
+        transform: rotate(0deg) !important;
+    }
+
+    .flip-card.flying {
+        width: 160px !important; height: 220px !important;
+        transform: translate(-50%, -50%) scale(1.6) !important;
+    }
+
+    #app { align-items: flex-start; overflow-y: auto; overflow-x: hidden; }
+}
+
+/* Animations Helper */
+.animate-pop { animation: pop-in 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+@keyframes pop-in { 0% { transform: scale(0); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+
+/* FLOATING ANIMATIONS FOR DESKTOP */
+@keyframes float-1 {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+    33% { transform: translate(30px, -50px) rotate(5deg); }
+    66% { transform: translate(-20px, 20px) rotate(-5deg); }
+}
+@keyframes float-2 {
+    0%, 100% { transform: translate(0, 0) rotate(5deg); }
+    50% { transform: translate(-40px, -30px) rotate(-10deg); }
+}
+@keyframes float-3 {
+    0%, 100% { transform: translate(0, 0) rotate(-5deg); }
+    50% { transform: translate(50px, 40px) rotate(15deg); }
+}
+@keyframes float-4 {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+    50% { transform: translate(-30px, 50px) rotate(-8deg); }
+}
+
+/* PRANK MESSAGE STYLE */
+.prank-msg {
+    position: fixed;
+    pointer-events: none;
+    color: var(--accent);
+    font-weight: bold;
+    font-size: 1.4rem;
+    z-index: 5000;
+    text-shadow: 2px 2px 4px rgba(255,255,255,0.9);
+    animation: prank-fade 1.5s forwards;
+    white-space: nowrap;
+}
+@keyframes prank-fade {
+    0% { transform: scale(0.5); opacity: 0; }
+    20% { transform: scale(1.3); opacity: 1; }
+    100% { transform: scale(1) translateY(-60px); opacity: 0; }
+}
+
+/* WHEEL OF FORTUNE STYLES */
+.wheel-card {
+    max-width: 400px;
+    position: relative;
+    overflow: hidden;
+}
+
+.wheel-outer {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    margin: 20px auto;
+}
+
+/* DESKTOP: Make wheel bigger */
+@media (min-width: 768px) {
+    .wheel-card {
+        max-width: 620px;
+        padding: 2.5rem;
+    }
+
+    .wheel-outer {
+        width: 480px;
+        height: 480px;
+    }
+
+    #wheel-canvas {
+        width: 480px;
+        height: 480px;
+    }
+
+    .wheel-card h2 {
+        font-size: 2rem;
+    }
+
+    #spin-btn {
+        font-size: 1.2rem;
+        padding: 14px 36px;
+    }
+
+    #prize-img {
+        width: 140px !important;
+        height: 140px !important;
+    }
+}
+
+.wheel-container {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 5px solid white;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    overflow: hidden;
+    transition: transform 6s cubic-bezier(0.1, 0, 0, 1); /* Dramatic slow down at the end */
+}
+
+.wheel-pointer {
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 2.5rem;
+    z-index: 10;
+}
+
+.wheel-result {
+    display: none;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 2px dashed var(--primary-light);
+    animation: pop-in 0.5s ease;
+}
+
+.wheel-result p {
+    font-size: 1.2rem;
+    margin: 10px 0 20px;
+}
+
+#prize-name {
+    color: var(--accent);
+    font-size: 1.5rem;
+}
+
+#spin-btn.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+}
